@@ -43,7 +43,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.12</version>
+            <scope>provided</scope>
         </dependency>
         <!--mp-->
         <dependency>
@@ -55,11 +56,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <!--mp代码生成器-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -67,9 +63,9 @@
             <version>3.2.0</version>
         </dependency>
         <dependency>
-                <groupId>org.crazycake</groupId>
-                <artifactId>shiro-redis-spring-boot-starter</artifactId>
-                <version>3.2.1</version>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis-spring-boot-starter</artifactId>
+            <version>3.2.1</version>
         </dependency>
         <!-- hutool工具类-->
         <dependency>
