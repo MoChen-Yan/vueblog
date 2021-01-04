@@ -17,3 +17,7 @@ mochen:
     secret: f4e2e52034348f86b67cde581c0f9eb5
     expire: 604800
     header: Authorization
+
+shiro-redis:
+  redis-manager:
+    host : 192.168.100.101:6379

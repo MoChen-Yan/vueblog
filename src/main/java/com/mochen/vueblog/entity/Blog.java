@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,10 +27,13 @@ public class Blog implements Serializable {
 
     private Long userId;
 
+    @NotBlank(message = "标题不得为空")
     private String title;
 
+    @NotBlank(message = "摘要不得为空")
     private String description;
 
+    @NotBlank(message = "内容不得为空")
     private String content;
 
     private LocalDateTime created;
