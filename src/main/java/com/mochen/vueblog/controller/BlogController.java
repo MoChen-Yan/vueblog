@@ -10,6 +10,7 @@ import com.mochen.vueblog.common.lang.Result;
 import com.mochen.vueblog.entity.Blog;
 import com.mochen.vueblog.service.BlogService;
 import com.mochen.vueblog.util.ShiroUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -49,22 +50,23 @@ public class BlogController {
     public Result edit(@Validated @RequestBody Blog blog){
 
         Blog temp = null;
-        if(blog.getId() != null){
-
+        if(blog.getId() != null) {
             temp = blogService.getById(blog.getId());
-            //只能编辑自己文章
-            /*shiroUtil工具类以完成*/
-            Assert.isTrue(temp.getId().longValue() == ShiroUtil.getProfile().getId().longValue());
-        }else {
+            // 只能编辑自己的文章
+            System.out.println(ShiroUtil.getProfile().getId());
+            Assert.isTrue(temp.getUserId().longValue() == ShiroUtil.getProfile().getId().longValue(), "没有权限编辑");
+
+        } else {
+
             temp = new Blog();
             temp.setUserId(ShiroUtil.getProfile().getId());
             temp.setCreated(LocalDateTime.now());
             temp.setStatus(0);
-
         }
 
-        BeanUtil.copyProperties(blog,temp,"id","userId","created","status");
-        boolean TF = blogService.saveOrUpdate(temp);
+        BeanUtil.copyProperties(blog, temp, "id", "userId", "created", "status");
+        blogService.saveOrUpdate(temp);
+
         return Result.succ(null);
 
 
