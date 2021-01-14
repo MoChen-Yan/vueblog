@@ -24,7 +24,7 @@ public class CodeGenerator {
      */
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
+        StringBuilder  help = new StringBuilder();
         help.append("请输入" + tip + "：");
         System.out.println(help.toString());
         if (scanner.hasNext()) {
@@ -46,6 +46,7 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
 //        gc.setOutputDir("D:\\test");
         gc.setOpen(false);
+        gc.setAuthor("MoChen出品，必是精品");
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         gc.setServiceName("%sService");
         mpg.setGlobalConfig(gc);

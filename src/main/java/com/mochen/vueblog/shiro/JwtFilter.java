@@ -32,7 +32,7 @@ public class JwtFilter extends AuthenticatingFilter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String jwt = request.getHeader("Authorization");
-        if(StringUtils.isEmpty(jwt)) {
+        if (StringUtils.isEmpty(jwt)) {
             return null;
         }
 
@@ -44,13 +44,13 @@ public class JwtFilter extends AuthenticatingFilter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String jwt = request.getHeader("Authorization");
-        if(StringUtils.isEmpty(jwt)) {
+        if (StringUtils.isEmpty(jwt)) {
             return true;
         } else {
 
             // 校验jwt
             Claims claim = jwtUtils.getClaimByToken(jwt);
-            if(claim == null || jwtUtils.isTokenExpired(claim.getExpiration())) {
+            if (claim == null || jwtUtils.isTokenExpired(claim.getExpiration())) {
                 throw new ExpiredCredentialsException("token已失效，请重新登录");
             }
 

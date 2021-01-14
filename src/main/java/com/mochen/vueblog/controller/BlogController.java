@@ -29,28 +29,28 @@ public class BlogController {
 
 
     @GetMapping("/list")
-    public Result list(@RequestParam(defaultValue = "1") Integer currentPage){
+    public Result list(@RequestParam(defaultValue = "1") Integer currentPage) {
 
-        Page page = new Page(currentPage,10);
-        IPage pageDate = blogService.page(page,new QueryWrapper<Blog>().orderByDesc("created"));
+        Page page = new Page(currentPage, 10);
+        IPage pageDate = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
 
         return Result.succ(pageDate);
     }
 
     @GetMapping("/{id}")
-    public Result detail(@PathVariable(name = "id") long id){
+    public Result detail(@PathVariable(name = "id") long id) {
 
         Blog blog = blogService.getById(id);
-        Assert.notNull(blog,"该博客不存在");
+        Assert.notNull(blog, "该博客不存在");
         return Result.succ(blog);
     }
 
     @RequiresAuthentication
     @PostMapping("/edit")
-    public Result edit(@Validated @RequestBody Blog blog){
+    public Result edit(@Validated @RequestBody Blog blog) {
 
         Blog temp = null;
-        if(blog.getId() != null) {
+        if (blog.getId() != null) {
             temp = blogService.getById(blog.getId());
             // 只能编辑自己的文章
             System.out.println(ShiroUtil.getProfile().getId());
@@ -70,9 +70,7 @@ public class BlogController {
         return Result.succ(null);
 
 
-
     }
-
 
 
 }

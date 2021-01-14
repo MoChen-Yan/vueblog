@@ -8,10 +8,10 @@ import java.io.Serializable;
 public class Result implements Serializable {
 
     private String code;
-    private String  msg;
+    private String msg;
     private Object data;
 
-    public static Result succ(Object data){
+    public static Result succ(Object data) {
         Result m = new Result();
         m.setCode("0");
         m.setData(data);
@@ -35,15 +35,16 @@ public class Result implements Serializable {
         return m;
     }
 
-    public static Result fail(String mess, Object data){
+    public static Result fail(String mess, Object data) {
         Result m = new Result();
         m.setCode("-1");
+
         m.setData(data);
         m.setMsg(mess);
         return m;
     }
 
-    public static Result fail(String code, String msg,Object data){
+    public static Result fail(String code, String msg, Object data) {
         Result m = new Result();
         m.setCode(code);
         m.setMsg(msg);

@@ -25,13 +25,13 @@ public class UserController {
     UserMapper userMapper;
 
     @GetMapping("/{id}")
-    public Object index(@PathVariable("id") Long id){
+    public Object index(@PathVariable("id") Long id) {
         User user = userService.getById(id);
         return Result.succ(user);
     }
 
     @GetMapping("/insert")
-    public Object insert(){
+    public Object insert() {
         LocalDateTime localDateTime = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
         LocalDateTime localDateTime1 = localDateTime.of(2018, 1, 1, 2, 1);
         User user = User.builder()
@@ -45,20 +45,17 @@ public class UserController {
                 .build();
         boolean TF = userService.save(user);
         return Result.succ(TF);
-       // return true;
+        // return true;
     }
 
     @GetMapping("/update/{id}")
-    public Object update(@PathVariable("id") Long id){
+    public Object update(@PathVariable("id") Long id) {
         UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-        userUpdateWrapper.eq("id","1")
-                .set("username","mochen1");
+        userUpdateWrapper.eq("id", "1")
+                .set("username", "mochen1");
         boolean TF = userService.update(userUpdateWrapper);
         return Result.succ(TF);
     }
-
-
-
 
 
 }

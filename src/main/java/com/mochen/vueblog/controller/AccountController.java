@@ -29,30 +29,30 @@ public class AccountController {
 
     @CrossOrigin
     @PostMapping("/login")
-    public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response){
+    public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
 
-        User user = userService.getOne(new QueryWrapper<User>().eq("username",loginDto.getUsername()));
-        Assert.notNull(user,"用户不存在");
-        if(user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))){
+        User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
+        Assert.notNull(user, "用户不存在");
+        if (user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
             return Result.fail("密码错误");
         }
         String jwt = jwtUtils.generateToken(user.getId());
-        response.setHeader("Authorization",jwt);
+        response.setHeader("Authorization", jwt);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
 
 
         return Result.succ(MapUtil.builder()
-                .put("id",user.getId())
-                .put("username",user.getUsername())
-                .put("avater",user.getAvatar())
-                .put("email",user.getEmail())
+                .put("id", user.getId())
+                .put("username", user.getUsername())
+                .put("avater", user.getAvatar())
+                .put("email", user.getEmail())
                 .map()
         );
     }
 
 
     @PostMapping("/logout")
-    public Result logout(){
+    public Result logout() {
         SecurityUtils.getSubject().logout();
         return Result.succ(null);
     }
