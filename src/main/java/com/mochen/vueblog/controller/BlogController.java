@@ -21,36 +21,36 @@ import java.time.LocalDateTime;
 
 
 @RestController
-@RequestMapping("/blog")
 public class BlogController {
 
     @Autowired
     BlogService blogService;
 
-
-    @GetMapping("/list")
+    @GetMapping("/blogs")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage) {
 
-        Page page = new Page(currentPage, 10);
-        IPage pageDate = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
+        Page page = new Page(currentPage, 5);
+        IPage pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
 
-        return Result.succ(pageDate);
+        return Result.succ(pageData);
     }
 
-    @GetMapping("/{id}")
-    public Result detail(@PathVariable(name = "id") long id) {
-
+    @GetMapping("/blog/{id}")
+    public Result detail(@PathVariable(name = "id") Long id) {
         Blog blog = blogService.getById(id);
-        Assert.notNull(blog, "该博客不存在");
+        Assert.notNull(blog, "该博客已被删除");
+
         return Result.succ(blog);
     }
 
     @RequiresAuthentication
-    @PostMapping("/edit")
+    @PostMapping("/blog/edit")
     public Result edit(@Validated @RequestBody Blog blog) {
 
+//        Assert.isTrue(false, "公开版不能任意编辑！");
+
         Blog temp = null;
-        if (blog.getId() != null) {
+        if(blog.getId() != null) {
             temp = blogService.getById(blog.getId());
             // 只能编辑自己的文章
             System.out.println(ShiroUtil.getProfile().getId());
@@ -68,8 +68,6 @@ public class BlogController {
         blogService.saveOrUpdate(temp);
 
         return Result.succ(null);
-
-
     }
 
 
