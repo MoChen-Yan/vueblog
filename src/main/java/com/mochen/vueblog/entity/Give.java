@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 
@@ -29,14 +31,18 @@ public class Give implements Serializable {
 
     private Long id;
 
+    @NotNull(message = "捐献物品不得为空")
     private String giveName;
 
+    @NotNull(message = "图片不得为空")
     private String givePicture;
 
     private Long giveUser;
 
+    @NotNull(message = "个数不得为空")
     private Long giveNum;
 
+    @NotNull(message = "介绍不得为空")
     private String giveContext;
 
 

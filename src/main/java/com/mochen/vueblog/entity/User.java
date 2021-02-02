@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -24,12 +25,16 @@ public class User implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    @NotNull(message = "用户名不得为空")
     private String username;
 
+    //头像
     private String avatar;
 
+    @NotNull(message = "电子邮箱不得为空")
     private String email;
 
+    @NotNull(message = "密码不得为空")
     private String password;
 
     private Integer status;

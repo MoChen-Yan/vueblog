@@ -41,7 +41,7 @@ public class GoodsController {
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage){
         Page page = new Page(currentPage,10);
-        IPage pageData = goodsService.page(page, new QueryWrapper<Goods>().orderByDesc("created"));
+        IPage pageData = goodsService.page(page, new QueryWrapper<Goods>().orderByDesc("id"));
 
         return Result.succ(pageData);
     }

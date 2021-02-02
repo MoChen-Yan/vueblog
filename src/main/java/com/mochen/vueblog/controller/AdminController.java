@@ -1,9 +1,25 @@
 package com.mochen.vueblog.controller;
 
 
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mochen.vueblog.common.dto.AdminDto;
+import com.mochen.vueblog.common.lang.Result;
+import com.mochen.vueblog.entity.Admin;
+import com.mochen.vueblog.service.AdminService;
+import com.mochen.vueblog.util.JwtUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -16,5 +32,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
+    AdminService adminService;
+
+    @GetMapping("/login")
+    public Result login(@Validated @RequestBody AdminDto adminDto, HttpServletResponse response){
+
+        Admin admin = adminService.getOne(new QueryWrapper<Admin>().eq("adminName",adminDto.getAdminName()));
+        Assert.notNull(admin,"该管理员不存在");
+        if(!admin.getAdminPassword().equals(adminDto.getAdminPassword())){
+            return Result.fail("管理员密码错误！！！");
+        }
+
+        String jwt = jwtUtils.generateToken(admin.getId());
+        response.setHeader("Authorization",jwt);
+        response.setHeader("Access-Control-Expose-Headers","Authorization");
+        return Result.succ(MapUtil.builder()
+        .put("id",admin.getId())
+        .put("adminName",admin.getAdminName())
+        );
+    }
+
+    //退出
+    @GetMapping("/logout")
+    @RequiresAuthentication
+    public Result logout(){
+        SecurityUtils.getSubject().logout();
+        return Result.succ(null);
+    }
+
+
 
 }

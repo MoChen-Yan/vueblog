@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 
@@ -30,14 +32,19 @@ public class  Goods implements Serializable {
 
     private Long id;
 
+    @NotNull(message = "商品名不得为空")
     private String goodsName;
 
+    @NotNull(message = "介绍不得为空")
     private String goodsContent;
 
+    @NotNull(message = "个数不得为空")
     private Long goodsNum;
 
+    @NotNull(message = "单价不得为空")
     private Double goodsPrice;
 
+    @NotNull(message = "图片不得为空")
     private String goodsPicture;
 
     private Integer goodsStatus;
