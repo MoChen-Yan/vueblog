@@ -1,6 +1,8 @@
 package com.mochen.vueblog.controller;
 
 
+import com.mochen.vueblog.service.GiveService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -16,5 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/give")
 public class GiveController {
+
+    @Autowired
+    GiveService giveService;
+
+
+
 
 }
