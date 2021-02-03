@@ -51,7 +51,9 @@ public class  Goods implements Serializable {
 
     private Long goodsUser;
 
+    @NotNull(message = "分类不得为空")
     private Long goodsCate;
+
 
     private LocalDateTime goodsCreated;
 

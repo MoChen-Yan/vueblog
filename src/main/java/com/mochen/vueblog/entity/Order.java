@@ -30,9 +30,9 @@ public class Order implements Serializable {
 
     private Long id;
 
-    private String orderBuyer;
+    private long orderBuyer;
 
-    private String orderSeller;
+    private long orderSeller;
 
     private Long orderGoods;
 

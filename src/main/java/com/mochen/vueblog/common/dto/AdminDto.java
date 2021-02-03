@@ -5,10 +5,11 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Validated
-public class AdminDto {
+public class AdminDto implements Serializable {
 
     @NotBlank(message = "管理员不得为空")
     private String adminName;

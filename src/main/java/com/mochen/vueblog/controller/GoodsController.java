@@ -66,6 +66,8 @@ public class GoodsController {
 
     }
 
+
+
     @RequiresAuthentication
     @GetMapping("/edit")
     public Result edit(@Validated @RequestBody Goods goods){
@@ -114,8 +116,8 @@ public class GoodsController {
         return Result.succ(null);
     }
 
-    @GetMapping("/updateStatus")
-    public Result updateStatus(@RequestBody Goods goods) {
+    @GetMapping("/updateAdmin")
+    public Result updateAdmin(@RequestBody Goods goods) {
 
         Goods temp = null;
         if(goods.getId() != null){
@@ -124,7 +126,6 @@ public class GoodsController {
             //编辑
             System.out.println(ShiroUtil.getProfile().getId());
 
-            Assert.isTrue(temp.getId().longValue() == ShiroUtil.getProfile().getId().longValue(),"不是您自己的商品");
 
         }else{
 

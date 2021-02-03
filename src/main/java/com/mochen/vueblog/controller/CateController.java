@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mochen.vueblog.common.lang.Result;
 import com.mochen.vueblog.entity.Cate;
+import com.mochen.vueblog.mapper.CateMapper;
 import com.mochen.vueblog.service.CateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +29,9 @@ public class CateController {
 
     @Autowired
     CateService cateService;
+
+    @Autowired
+    CateMapper cateMapper;
 
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage){
@@ -57,6 +61,13 @@ public class CateController {
         return Result.succ(cate1);
     }
 
+    @GetMapping("/del/{id}")
+    public Result del(@PathVariable(name = "id") long id){
+
+        cateMapper.deleteById(id);
+        return Result.succ(null);
+
+    }
 
 
 
