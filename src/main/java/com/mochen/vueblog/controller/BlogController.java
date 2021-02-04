@@ -17,7 +17,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.HttpURLConnection;
+import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 
 @RestController
@@ -44,7 +46,7 @@ public class BlogController {
     }
 
     @RequiresAuthentication
-    @PostMapping("/blog/edit")
+    @GetMapping("/blog/edit")
     public Result edit(@Validated @RequestBody Blog blog) {
 
 //        Assert.isTrue(false, "公开版不能任意编辑！");
@@ -60,7 +62,7 @@ public class BlogController {
 
             temp = new Blog();
             temp.setUserId(ShiroUtil.getProfile().getId());
-            temp.setCreated(LocalDateTime.now());
+            temp.setCreated(LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai"))));
             temp.setStatus(0);
         }
 

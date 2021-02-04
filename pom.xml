@@ -94,11 +94,11 @@
             <artifactId>junit-platform-commons</artifactId>
         </dependency>
         <!--shiro-redis-->
-        <!--<dependency>
+        <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
             <version>3.2.3</version>
-        </dependency>-->
+        </dependency>
         <!--thymeleaf-->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>

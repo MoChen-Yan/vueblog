@@ -10,9 +10,9 @@ import java.io.Serializable;
 @Validated
 public class OrderDto implements Serializable {
 
-    private long orderBuyer;
 
-    private long orederGoods;
+
+    private long orderGoods;
 
     private String orderAddress;
 

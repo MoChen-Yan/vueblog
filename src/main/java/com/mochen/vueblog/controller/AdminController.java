@@ -1,6 +1,7 @@
 package com.mochen.vueblog.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -42,7 +43,7 @@ public class AdminController {
     @GetMapping("/login")
     public Result login(@Validated @RequestBody AdminDto adminDto, HttpServletResponse response){
 
-        Admin admin = adminService.getOne(new QueryWrapper<Admin>().eq("adminName",adminDto.getAdminName()));
+        Admin admin = adminService.getOne(new QueryWrapper<Admin>().eq("admin_name",adminDto.getAdminName()));
         Assert.notNull(admin,"该管理员不存在");
         if(!admin.getAdminPassword().equals(adminDto.getAdminPassword())){
             return Result.fail("管理员密码错误！！！");
@@ -53,7 +54,8 @@ public class AdminController {
         response.setHeader("Access-Control-Expose-Headers","Authorization");
         return Result.succ(MapUtil.builder()
         .put("id",admin.getId())
-        .put("adminName",admin.getAdminName())
+        .put("admin_name",admin.getAdminName())
+        .put("avatar",admin.getAvatar())
         );
     }
 
@@ -64,6 +66,25 @@ public class AdminController {
         SecurityUtils.getSubject().logout();
         return Result.succ(null);
     }
+
+    //添加
+    @GetMapping("/edit")
+    public Result edit(@Validated @RequestBody Admin admin){
+
+        Admin adminDemo = null;
+        if(admin.getId() != null){
+            adminDemo = adminService.getById(admin.getId());
+        }else {
+            adminDemo = new Admin();
+            adminDemo.setAdminPassword(admin.getAdminPassword());
+            adminDemo.setAvatar(admin.getAvatar());
+
+        }
+        BeanUtil.copyProperties(admin,adminDemo,"id","adminPassword","avatar");
+        adminService.saveOrUpdate(adminDemo);
+        return Result.succ(null);
+    }
+
 
 
 

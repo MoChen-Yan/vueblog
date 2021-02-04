@@ -1,13 +1,11 @@
 package com.mochen.vueblog.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -16,11 +14,9 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author MoChen出品，必是精品
- * @since 2021-01-15
+ * @since 2021-02-04
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("m_order")
@@ -30,12 +26,13 @@ public class Order implements Serializable {
 
     private Long id;
 
-    private long orderBuyer;
+    private Long orderBuyer;
 
-    private long orderSeller;
+    private Long orderSeller;
 
     private Long orderGoods;
 
+    @TableField("order_created")
     private LocalDateTime orderCreated;
 
     private LocalDateTime orderEnded;
