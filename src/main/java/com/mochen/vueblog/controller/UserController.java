@@ -32,6 +32,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserMapper userMapper;
+
 
     @GetMapping("/info")
     public Object index() {
@@ -103,11 +106,39 @@ public class UserController {
         }
     }
 
-    @GetMapping("/creat")
+    @PostMapping("/creat")
     public Result creat(@RequestBody @Validated RegisterDto registerDto){
 
+        String reUserName = registerDto.getUsername();
+        User temp = null;
+        if(reUserName != null){
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq(true,"username", reUserName);
+            try{
+                temp = userService.getOne(queryWrapper);
+            }catch (Exception e){
+            }finally {
+                temp = userService.getOne(queryWrapper);
+            }
+            if(temp != null){
+                return Result.fail("用户已被注册,请重新注册");
+            }else{
+                User user = new User();
+                user.setUsername(registerDto.getUsername());
+                user.setPassword(registerDto.getPassword());
+                user.setEmail(registerDto.getEmail());
+                user.setAvatar(null);
+                user.setStatus(1);
+                user.setCreated(LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai"))));
+                user.setLastLogin(null);
+                userService.save(user);
+                return Result.succ(user);
+            }
+        }else {
+            return Result.fail("注册失败，请重新填写信息");
+        }
 
-        if(registerDto != null){
+        /*if(registerDto != null){
             User user = new User();
             user.setUsername(registerDto.getUsername());
             user.setPassword(registerDto.getPassword());
@@ -120,7 +151,7 @@ public class UserController {
             return Result.succ(user);
         }else {
             return Result.fail("注册失败");
-        }
+        }*/
 
     }
 

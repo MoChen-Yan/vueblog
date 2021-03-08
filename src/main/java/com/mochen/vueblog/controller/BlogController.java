@@ -46,7 +46,7 @@ public class BlogController {
     }
 
     @RequiresAuthentication
-    @GetMapping("/blog/edit")
+    @PostMapping("/blog/edit")
     public Result edit(@Validated @RequestBody Blog blog) {
 
 //        Assert.isTrue(false, "公开版不能任意编辑！");

@@ -2,7 +2,6 @@ package com.mochen.vueblog.mapper;
 
 import com.mochen.vueblog.entity.Cate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 /**

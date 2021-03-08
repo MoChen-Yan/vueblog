@@ -68,6 +68,15 @@ public class GoodsController {
 
     }
 
+    @GetMapping("/listByCate/{cateId}")
+    public Result listByCate(@PathVariable(name = "cateId") long cateId,@RequestParam(defaultValue = "1") Integer currentPage){
+        Page page = new Page(currentPage,10);
+        IPage pageData = goodsService.page(page,new QueryWrapper<Goods>().eq("goods_cate",cateId));
+
+        return Result.succ(pageData);
+
+    }
+
 
 
     @RequiresAuthentication

@@ -61,12 +61,15 @@ public class CateController {
         return Result.succ(cate1);
     }
 
+
     @GetMapping("/del/{id}")
     public Result del(@PathVariable(name = "id") long id){
 
-        cateMapper.deleteById(id);
+        Cate cate = cateService.getById(id);
+        if(cate!= null){
+            cateMapper.deleteById(id);
+        }
         return Result.succ(null);
-
     }
 
 
