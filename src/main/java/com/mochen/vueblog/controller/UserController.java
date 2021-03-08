@@ -7,15 +7,19 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mochen.vueblog.common.dto.RegisterDto;
 import com.mochen.vueblog.common.lang.Result;
 import com.mochen.vueblog.entity.User;
 import com.mochen.vueblog.mapper.UserMapper;
 import com.mochen.vueblog.service.UserService;
+import com.mochen.vueblog.util.ShiroUtil;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.PublicKey;
+import java.sql.ResultSet;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -29,10 +33,17 @@ public class UserController {
     UserService userService;
 
 
-    @GetMapping("/{id}")
-    public Object index(@PathVariable("id") Long id) {
-        User user = userService.getById(id);
-        return Result.succ(user);
+    @GetMapping("/info")
+    public Object index() {
+        if(ShiroUtil.getProfile().getId() != null){
+            long userId = ShiroUtil.getProfile().getId().longValue();
+            User user = userService.getById(userId);
+            return Result.succ(user);
+        }else{
+            return Result.fail("未登录");
+        }
+
+
     }
 
     @GetMapping("/list")
@@ -60,12 +71,15 @@ public class UserController {
         if(user.getId() != null){
             temp = userService.getById(user.getId());
 
+
         }else{
             temp = new User();
             temp.setAvatar(user.getAvatar());
             temp.setEmail(user.getEmail());
             temp.setPassword(user.getPassword());
+            temp.setStatus(user.getStatus());
             temp.setCreated(LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai"))));
+
         }
 
         BeanUtil.copyProperties(user,temp,"id","avatar","email","password","created");
@@ -88,6 +102,29 @@ public class UserController {
             return Result.fail("修改失败");
         }
     }
+
+    @GetMapping("/creat")
+    public Result creat(@RequestBody @Validated RegisterDto registerDto){
+
+
+        if(registerDto != null){
+            User user = new User();
+            user.setUsername(registerDto.getUsername());
+            user.setPassword(registerDto.getPassword());
+            user.setEmail(registerDto.getEmail());
+            user.setAvatar(null);
+            user.setStatus(1);
+            user.setCreated(LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai"))));
+            user.setLastLogin(null);
+            userService.save(user);
+            return Result.succ(user);
+        }else {
+            return Result.fail("注册失败");
+        }
+
+    }
+
+
 
 
 }

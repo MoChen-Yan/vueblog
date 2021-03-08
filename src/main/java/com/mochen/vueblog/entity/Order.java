@@ -30,7 +30,7 @@ public class Order implements Serializable {
 
     private Long orderSeller;
 
-    private Long orderGoods;
+    private Long orderGoods; 
 
     @TableField("order_created")
     private LocalDateTime orderCreated;
